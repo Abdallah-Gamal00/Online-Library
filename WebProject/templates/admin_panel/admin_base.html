@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css_files/admin/admin-style.css' %}">
+{% endblock %}
+
+{% block nav_links %}
+<li><a href="{% url 'admin_dashboard' %}" class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">Dashboard</a></li>
+<li><a href="{% url 'admin_books' %}" class="{% if request.resolver_match.url_name == 'admin_books' %}active{% endif %}">Manage Books</a></li>
+<li><a href="{% url 'admin_add_book' %}" class="{% if request.resolver_match.url_name == 'admin_add_book' %}active{% endif %}">Add Book</a></li>
+<li>
+    <a href="#" id="logout-link" style="display: block; text-decoration: none; color: white; font-size: 20px; margin: 30px 5px; padding: 10px 25px;">Logout</a>
+</li>
+{% endblock %} 

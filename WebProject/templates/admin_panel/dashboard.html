@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block nav_links %}
+<li><a href="{% url 'admin_dashboard' %}" class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">Dashboard</a></li>
+<li><a href="{% url 'admin_books' %}" class="{% if request.resolver_match.url_name == 'admin_books' %}active{% endif %}">Manage Books</a></li>
+<li>
+    <a href="#" id="logout-link" style="display: block; text-decoration: none; color: white; font-size: 20px; margin: 30px 5px; padding: 10px 25px;">Logout</a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1 class="admin-title">Admin Dashboard</h1>
+        <div class="admin-actions">
+            <a href="{% url 'admin_add_book' %}" class="btn">Add New Book</a>
+            <a href="{% url 'admin_books' %}" class="btn btn-secondary">View All Books</a>
+        </div>
+    </div>
+    <div class="form-container">
+        <h2 class="form-title">Library Overview</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Total Books</td>
+                        <td>{{ total_books }}</td>
+                    </tr>
+                    {% for stat in category_stats %}
+                    <tr>
+                        <td>{{ stat.category }}</td>
+                        <td>{{ stat.count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="form-container">
+        <h2 class="form-title">Recent Books Added</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in recent_books %}
+                    <tr>
+                        <td>{{ book.id }}</td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.category }}</td>
+                        <td class="action-buttons">
+                            <a href="#" class="btn-edit">Edit</a>
+                            <a href="#" class="btn-delete">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" style="text-align:center; color:#ff5a5a;">No books added yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css_files/admin/admin-style.css' %}">
+{% endblock %}

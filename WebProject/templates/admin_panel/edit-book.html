@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Admin Panel | Edit Book{% endblock %}
+
+{% block content %}
+    <div class="admin-container">
+      <div class="admin-header">
+        <h1 class="admin-title">Edit Book</h1>
+        <div class="admin-actions">
+          <a href="/books/admin_panel/books/" class="btn btn-secondary">Back to Books</a>
+        </div>
+      </div>
+
+      <div class="form-container">
+        <h2 class="form-title">Book Information</h2>
+        <form>
+          <div class="form-group">
+            <label for="book-id" class="form-label">Book ID</label>
+            <input
+              type="text"
+              id="book-id"
+              class="form-control"
+              readonly
+            />
+            <small style="color: #888; display: block; margin-top: 5px"
+              >Book ID cannot be changed</small
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="book-title" class="form-label">Book Title</label>
+            <input
+              type="text"
+              id="book-title"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="book-author" class="form-label">Author</label>
+            <input
+              type="text"
+              id="book-author"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="book-category" class="form-label">Category</label>
+            <select id="book-category" class="form-control" required>
+              <option value="Fiction">Fiction</option>
+              <option value="Non-Fiction">Non-Fiction</option>
+              <option value="Science">Science</option>
+              <option value="History">History</option>
+              <option value="Biography">Biography</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="book-description" class="form-label">Description</label>
+            <textarea id="book-description" class="form-control" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="book-image" class="form-label">Book Cover Image</label>
+            <input
+              type="file"
+              id="book-image"
+              class="form-control"
+              accept="image/*"
+            />
+            <small style="color: #888; display: block; margin-top: 5px"
+              >Leave empty to keep current image</small
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="book-availability" class="form-label"
+              >Availability</label
+            >
+            <select id="book-availability" class="form-control" required>
+              <option value="Available">Available</option>
+              <option value="Not Available">Not Available</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 30px">
+            <button type="submit" class="btn">Update Book</button>
+            <button
+              type="reset"
+              class="btn btn-secondary"
+              style="margin-left: 10px"
+            >
+              Reset Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css_files/admin/admin-style.css' %}" />
+    <script src="{% static 'js_files/data-service.js' %}" defer></script>
+    <script src="{% static 'js_files/admin/edit-book.js' %}" defer></script>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Add Book | Online Library{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Add New Book</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Book</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css_files/admin/admin-style.css' %}" />
+{% endblock %} 

@@ -1,0 +1,90 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Online Library{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'book-logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css_files/base-style.css' %}">
+    <script src="{% static 'js_files/csrf.js' %}"></script>
+    <script src="{% static 'js_files/dropdown.js' %}" defer></script>
+    <script src="{% static 'js_files/auth.js' %}" defer></script>
+    {% block head %}{% endblock %}
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% block main_nav %}
+    <div class="header">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'book-logo.png' %}" alt="Library Logo" />
+        </a>
+        <nav>
+            <ul>
+                {% block nav_links %}
+                <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
+                <li><a href="{% url 'books' %}" class="{% if request.resolver_match.url_name == 'books' %}active{% endif %}">Books</a></li>
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                    <li>
+                        <a href="#" class="dropdown-toggle {% if 'admin' in request.resolver_match.url_name %}active{% endif %}">Admin</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'admin_dashboard' %}" class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">Dashboard</a></li>
+                            <li><a href="{% url 'admin_books' %}" class="{% if request.resolver_match.url_name == 'admin_books' %}active{% endif %}">Manage Books</a></li>
+                            <li><a href="{% url 'admin_add_book' %}" class="{% if request.resolver_match.url_name == 'admin_add_book' %}active{% endif %}">Add Book</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <a href="#" id="logout-link" style="display: block; text-decoration: none; color: white; font-size: 20px; margin: 30px 5px; padding: 10px 25px;">Logout</a>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}" class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}">Login</a></li>
+                    <li><a href="{% url 'signup' %}" class="{% if request.resolver_match.url_name == 'signup' %}active{% endif %}">Signup</a></li>
+                {% endif %}
+                {% endblock %}
+            </ul>
+        </nav>
+    </div>
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+
+    <script>
+        // Get CSRF token from cookie
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Logout link handler
+        document.addEventListener("DOMContentLoaded", function() {
+            var logoutLink = document.getElementById("logout-link");
+            if (logoutLink) {
+                logoutLink.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    auth.logout();
+                });
+            }
+        });
+    </script>
+
+    {% if alert_message %}
+    <script>
+        alert("{{ alert_message }}");
+    </script>
+    {% endif %}
+</body>
+</html>
+

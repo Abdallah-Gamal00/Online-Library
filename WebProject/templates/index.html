@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home | Online Library{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css_files/h-style.css' %}" />
+    <script src="{% static 'js_files/h.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+    <main>
+      <p>Discover thousands of books</p>
+      <p>Start <span id="exp-t">exploring today!</span></p>
+      <div class="circle"></div>
+    </main>
+{% endblock %}

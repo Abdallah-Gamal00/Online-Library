@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Books - Online Library{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css_files/b-style.css' %}">
+    <script src="{% static 'js_files/books.js' %}?v=1.0"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="search-container">
+        <form method="GET" action="{% url 'books' %}" class="search-form">
+            <div class="search-input-group">
+                <input type="text" name="search" class="search-input" placeholder="Search book..." value="{{ request.GET.search }}" />
+                <button type="submit" class="search-button">🔍</button>
+                {% if request.GET.search %}
+                    <button type="button" class="clear-search" onclick="window.location.href='{% url 'books' %}'">✕</button>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+    {% if request.GET.search %}
+        <div class="search-results-info">
+            {% if books %}
+                Showing results for "{{ request.GET.search }}"
+            {% else %}
+                No results found for "{{ request.GET.search }}"
+            {% endif %}
+        </div>
+    {% endif %}
+    <div class="image-container">
+        {% for book in books %}
+        <div class="book-item">
+            {% if book.image %}
+                <img src="{{ book.image.url }}" alt="{{ book.title }}">
+            {% else %}
+                <img src="{% static 'default-book.jpg' %}" alt="{{ book.title }}">
+            {% endif %}
+            <div class="book-info">
+                <h3>{{ book.title }}</h3>
+                <p>By {{ book.author }}</p>
+                <span class="book-category">{{ book.category }}</span>
+                <p class="book-availability">
+                    {% if book.availability == 'Available' %}
+                        Available
+                    {% else %}
+                        Not Available
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-books">No books available at the moment.</div>
+        {% endfor %}
+    </div>
+{% endblock %}
